@@ -1,7 +1,9 @@
 package com.example.pazaramapokemonapp.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pazaramapokemonapp.domain.model.Pokemon
 import com.example.pazaramapokemonapp.domain.usecase.GetPokemonListUseCase
 import com.example.pazaramapokemonapp.util.Resource
 import com.example.pazaramapokemonapp.util.dispatcher.DispatcherProvider
@@ -30,20 +32,25 @@ class HomeViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = false, errorMessage = throwable.message) }
     }
 
+    private val allPokemons = mutableListOf<Pokemon>()
+
     init {
-        getMovies()
+//        getPokemons()
+        fakeGetPokemons()
     }
 
-    private fun getMovies() {
+    private fun getPokemons() {
         viewModelScope.launch(dispatcherProvider.IO + exceptionHandler) {
             _uiState.update { it.copy(isLoading = true) }
             when (val response = getPokemonListUseCase()) {
                 is Resource.Success -> {
                     response.data?.let {
+                        allPokemons.clear()
+                        allPokemons.addAll(it)
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                pokemons = response.data,
+                                pokemons = allPokemons,
                                 errorMessage = null
                             )
                         }
@@ -51,7 +58,7 @@ class HomeViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                errorMessage = "No movies found"
+                                errorMessage = "No Pokemon found"
                             )
                         }
                     }
@@ -69,9 +76,28 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun fakeGetPokemons(){
+        viewModelScope.launch(dispatcherProvider.IO + exceptionHandler) {
+            _uiState.update { it.copy(isLoading = true) }
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    pokemons = listOf(
+                        Pokemon(
+                            "Bulbasaur",
+                            "https://pokeapi.co/api/v2/pokemon/1/"
+                        ),
+                    ),
+                    errorMessage = null
+                )
+            }
+        }
+    }
+
+
     fun retry() {
         _uiState.update { it.copy(errorMessage = null) }
-        getMovies()
+        getPokemons()
     }
 
     fun setQuery(query: String) {
@@ -79,7 +105,40 @@ class HomeViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch(dispatcherProvider.IO + exceptionHandler) {
             delay(300)
-            getMovies()
+            if (query.isNotEmpty()) {
+                if (_uiState.value.filter == "Name") {
+                    filterByName(query)
+                } else {
+                    filterByNumber(query)
+                }
+            } else {
+                _uiState.update { it.copy(pokemons = allPokemons) }
+            }
         }
+    }
+
+    fun setFilter(filter: String) {
+        Log.d("HomeViewModel", "setFilter: $filter")
+        _uiState.update { it.copy(filter = filter) }
+    }
+
+    fun sortByName() {
+        _uiState.update { it.copy(pokemons = allPokemons.sortedBy { it.name }) }
+    }
+
+    fun sortByNumber() {
+        _uiState.update { it.copy(pokemons = allPokemons.sortedBy {
+            it.url.substring(34, it.url.length - 1).toInt()
+        }) }
+    }
+
+    fun filterByName(query: String) {
+        _uiState.update { it.copy(pokemons = allPokemons.filter { it.name.contains(query) }) }
+    }
+
+    fun filterByNumber(query: String) {
+        _uiState.update { it.copy(pokemons = allPokemons.filter {
+            it.url.substring(34, it.url.length - 1).toInt().toString().contains(query)
+        }) }
     }
 }

@@ -25,4 +25,5 @@
     <color name="medium_gray">#666666</color>
     <color name="light_gray">#E0E0E0</color>
     <color name="background">#EFEFEF</color>
+    <color name="wireframe">#B8B8B8</color>
 </resources>

@@ -9,12 +9,12 @@ import com.bumptech.glide.Glide
 import com.example.pazaramapokemonapp.databinding.PokedexItemLayoutBinding
 import com.example.pazaramapokemonapp.domain.model.Pokemon
 
-
 class PokemonListAdapter(
     private val listener: Listener
 ) : ListAdapter<Pokemon, PokemonListAdapter.PokemonListViewHolder>(MovieDiffUtil()) {
+
     interface Listener {
-        fun onItemClick(pokemon: Pokemon)
+        fun onItemClick(pokemonId: Int, pokemonName: String, pokemonImageUrl: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonListViewHolder {
@@ -33,18 +33,25 @@ class PokemonListAdapter(
             layoutParams.height = itemView.width
             itemView.layoutParams = layoutParams
         }
-        holder.bindItems(getItem(position))
+
+        val pokemon = getItem(position)
+        holder.bindItems(pokemon)
     }
 
     inner class PokemonListViewHolder(private val binding: PokedexItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(pokemon: Pokemon) {
-            binding.root.setOnClickListener {
-                listener.onItemClick(pokemon)
-            }
 
+        fun bindItems(pokemon: Pokemon) {
             val pokemonId = pokemon.url.split("/".toRegex()).dropLast(1).last()
             val threeDigitPokemonId = String.format("%03d", pokemonId.toInt())
+
+            binding.root.setOnClickListener {
+                listener.onItemClick(
+                    pokemonId.toInt(),
+                    pokemon.name,
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$pokemonId.png"
+                )
+            }
 
             binding.pokemonNumber.text = "#$threeDigitPokemonId"
             binding.pokemonName.text = pokemon.name.replaceFirstChar {
@@ -56,11 +63,9 @@ class PokemonListAdapter(
             Glide.with(binding.root.context)
                 .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$pokemonId.png")
                 .placeholder(com.example.pazaramapokemonapp.R.drawable.balbazar)
-                .into(binding.pokemonImage)
-        }
+                .into(binding.pokemonImage)        }
     }
 }
-
 
 private class MovieDiffUtil : DiffUtil.ItemCallback<Pokemon>() {
     override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
