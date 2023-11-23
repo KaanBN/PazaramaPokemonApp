@@ -7,11 +7,23 @@
     android:layout_weight="1"
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/outterLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/wireframe"
         android:padding="10dp"
         tools:context=".presentation.detail.PokemonDetailFragment">
+
+        <include
+            android:id="@+id/errorView"
+            layout="@layout/error_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/frameLayout"
@@ -67,7 +79,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/typesLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:paddingHorizontal="16dp">
+
+                    </LinearLayout>
                     <TextView
+                        android:id="@+id/aboutTitlteTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -100,6 +122,7 @@
                                     android:layout_marginEnd="5dp"
                                     app:tint="@color/dark_gray" />
                                 <TextView
+                                    android:id="@+id/weightTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/dark_gray"
@@ -141,6 +164,7 @@
                                     android:layout_marginEnd="5dp"
                                     app:tint="@color/dark_gray" />
                                 <TextView
+                                    android:id="@+id/heightTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/dark_gray"
@@ -176,7 +200,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
+                                android:paddingHorizontal="10dp"
+                                android:layout_gravity="center_horizontal"
                                 android:orientation="vertical">
+
 
                             </LinearLayout>
 
@@ -193,6 +220,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/pokemonStoryTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -204,6 +232,7 @@
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc iaculis eros vitae tellus condimentum maximus sit amet in eros." />
 
                     <TextView
+                        android:id="@+id/baseStatsTitleTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -219,6 +248,7 @@
                         android:orientation="vertical"
                         android:paddingHorizontal="16dp"
                         android:layout_marginBottom="10dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -499,6 +529,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
+                android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"

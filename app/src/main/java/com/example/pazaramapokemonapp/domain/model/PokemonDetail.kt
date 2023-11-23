@@ -4,11 +4,10 @@ import com.example.pazaramapokemonapp.data.dto.PokemonDetailDto
 
 class PokemonDetail(
     val name: String,
-    val url: String,
     val height: Int,
     val weight: Int,
-    val stats: List<PokemonDetailDto.Stat.Stat>,
-    val types: List<PokemonDetailDto.Type.Type>,
+    val stats: List<PokemonDetailDto.Stat>,
+    val types: List<PokemonDetailDto.Type>,
     val sprites: PokemonDetailDto.Sprites,
-    val abilities: List<PokemonDetailDto.Ability.Ability>
+    val abilities: List<PokemonDetailDto.Ability>
 )

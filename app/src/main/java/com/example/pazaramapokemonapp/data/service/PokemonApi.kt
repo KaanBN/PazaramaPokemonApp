@@ -1,6 +1,7 @@
 package com.example.pazaramapokemonapp.data.service
 
 import com.example.pazaramapokemonapp.data.dto.PokemonDetailDto
+import com.example.pazaramapokemonapp.data.dto.PokemonSpecieDto
 import com.example.pazaramapokemonapp.domain.model.PokemonResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -18,4 +19,9 @@ interface PokemonApi {
     suspend fun getPokemonDetail(
         @Path("id") id: Int
     ): Response<PokemonDetailDto>
+
+    @GET("pokemon-species/{id}")
+    suspend fun getPokemonSpecies(
+        @Path("id") id: Int
+    ): Response<PokemonSpecieDto>
 }

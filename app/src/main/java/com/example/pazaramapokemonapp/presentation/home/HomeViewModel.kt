@@ -35,8 +35,8 @@ class HomeViewModel @Inject constructor(
     private val allPokemons = mutableListOf<Pokemon>()
 
     init {
-//        getPokemons()
-        fakeGetPokemons()
+        getPokemons()
+//        fakeGetPokemons()
     }
 
     private fun getPokemons() {
