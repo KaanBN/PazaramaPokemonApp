@@ -10,7 +10,6 @@ fun PokemonDetailDto.toPokemonDetail(): PokemonDetail {
         weight = weight,
         stats = stats,
         types = types,
-        sprites = sprites,
         abilities = abilities
     )
 }

@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.pazaramapokemonapp.R
@@ -45,25 +46,63 @@ class PokemonDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val originalNavBarColor = requireActivity().window.navigationBarColor
+        val originalNavBarColor = resources.getColor(R.color.black, null)
         super.onViewCreated(view, savedInstanceState)
         collectUiState()
         arrangeDetails()
+        binding.buttonPrevious.visibility = if (args.availablePokemonIdsList.indexOf(args.pokemonId) > 0) View.VISIBLE else View.INVISIBLE
+        binding.buttonNext.visibility = if (args.availablePokemonIdsList.indexOf(args.pokemonId) < args.availablePokemonIdsList.size - 1) View.VISIBLE else View.INVISIBLE
         binding.errorView.btnRetry.setOnClickListener {
             viewModel.retry()
         }
         binding.backButton.setOnClickListener {
-            requireActivity().window.statusBarColor = resources.getColor(R.color.primary)
+            requireActivity().window.statusBarColor = resources.getColor(R.color.primary, null)
             requireActivity().window.navigationBarColor = originalNavBarColor
             requireActivity().onBackPressed()
+        }
+
+        binding.buttonPrevious.setOnClickListener {
+            val pokemonId = args.pokemonId
+            val avaliablePokemonIds = args.availablePokemonIdsList
+            val indexOfPokemonId = avaliablePokemonIds.indexOf(pokemonId)
+
+            if (indexOfPokemonId > 0) {
+                val previousPokemonId = avaliablePokemonIds[indexOfPokemonId - 1]
+                val action = PokemonDetailFragmentDirections.actionPokemonDetailFragmentSelf(
+                    previousPokemonId,
+                    args.pokemonName,
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$previousPokemonId.png",
+                    args.availablePokemonIdsList,
+                )
+                findNavController().navigate(action)
+            }
+        }
+
+        binding.buttonNext.setOnClickListener {
+            val pokemonId = args.pokemonId
+            val avaliablePokemonIds = args.availablePokemonIdsList
+            val indexOfPokemonId = avaliablePokemonIds.indexOf(pokemonId)
+
+            if (indexOfPokemonId < avaliablePokemonIds.size - 1) {
+                val nextPokemonId = avaliablePokemonIds[indexOfPokemonId + 1]
+                val action = PokemonDetailFragmentDirections.actionPokemonDetailFragmentSelf(
+                    nextPokemonId,
+                    args.pokemonName,
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$nextPokemonId.png",
+                    args.availablePokemonIdsList,
+                )
+                findNavController().navigate(action)
+            }
         }
     }
 
     private fun arrangeDetails(){
         val displayMetrics = resources.displayMetrics
         val width = displayMetrics.widthPixels
-        binding.pokemonImage.layoutParams.width = (width * 0.5).toInt()
-        binding.pokemonImage.layoutParams.height = (width * 0.5).toInt()
+        val height = displayMetrics.heightPixels
+        val min = minOf(width, height)
+        binding.pokemonImage.layoutParams.width = (min * 0.5).toInt()
+        binding.pokemonImage.layoutParams.height = (min * 0.5).toInt()
 
         val pokemonName = args.pokemonName
         binding.pokemonNameTV.text = pokemonName.replaceFirstChar {
@@ -145,19 +184,28 @@ class PokemonDetailFragment : Fragment() {
         binding.pokemonStoryTV.text = englishFlavorTextEntry.flavorText.replace("\n", " ")
     }
 
+    private fun makeThreeDigit(number: String): String {
+        return String.format("%03d", number.toInt())
+    }
+
     private fun bindPokemonDetail(pokemonDetail: PokemonDetail) {
         val floatWeight = pokemonDetail.weight.toFloat() / 10
         val floatHeight = pokemonDetail.height.toFloat() / 10
 
+        binding.pokemonNameTV.text = pokemonDetail.name.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                java.util.Locale.getDefault()
+            ) else it.toString()
+        }
         binding.weightTV.text = "$floatWeight kg"
         binding.heightTV.text = "$floatHeight m"
 
-        binding.hpValTV.text = pokemonDetail.stats[0].baseStat.toString()
-        binding.atkValTV.text = pokemonDetail.stats[1].baseStat.toString()
-        binding.defValTV.text = pokemonDetail.stats[2].baseStat.toString()
-        binding.satkValTV.text = pokemonDetail.stats[3].baseStat.toString()
-        binding.sdefValTV.text = pokemonDetail.stats[4].baseStat.toString()
-        binding.spdValTV.text = pokemonDetail.stats[5].baseStat.toString()
+        binding.hpValTV.text = makeThreeDigit(pokemonDetail.stats[0].baseStat.toString())
+        binding.atkValTV.text = makeThreeDigit(pokemonDetail.stats[1].baseStat.toString())
+        binding.defValTV.text = makeThreeDigit(pokemonDetail.stats[2].baseStat.toString())
+        binding.satkValTV.text = makeThreeDigit(pokemonDetail.stats[3].baseStat.toString())
+        binding.sdefValTV.text = makeThreeDigit(pokemonDetail.stats[4].baseStat.toString())
+        binding.spdValTV.text = makeThreeDigit(pokemonDetail.stats[5].baseStat.toString())
 
         binding.hpProgressBar.progress = pokemonDetail.stats[0].baseStat
         binding.atkProgressBar.progress = pokemonDetail.stats[1].baseStat
@@ -252,5 +300,10 @@ class PokemonDetailFragment : Fragment() {
 
             binding.typesLayout.addView(typeTv)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

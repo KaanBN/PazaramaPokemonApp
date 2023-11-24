@@ -531,7 +531,7 @@
             <ImageButton
                 android:id="@+id/backButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
@@ -549,7 +549,8 @@
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="Pokémon Name"
+                android:text="Pokémon Name Pokémon Name Pokémon Name"
+                android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:lineHeight="32dp"

@@ -9,5 +9,5 @@ data class HomeUiState(
     val searchLimit: Int = 20,
     val searchOffset: Int = 0,
     val errorMessage: String? = null,
-    val filter: String? = null
+    val filter: String? = null,
 )

@@ -7,5 +7,6 @@ fun PokemonSpecieDto.toPokemonSpecie(): PokemonSpecie {
     return PokemonSpecie(
         flavor_text_entries = flavorTextEntries,
         color = color,
+        name = name
     )
 }

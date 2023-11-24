@@ -28,5 +28,12 @@
         <argument
             android:name="pokemonImageUrl"
             app:argType="string" />
+        <action
+            android:id="@+id/action_pokemonDetailFragment_self"
+            app:destination="@id/pokemonDetailFragment"
+            app:launchSingleTop="true"/>
+        <argument
+            android:name="availablePokemonIdsList"
+            app:argType="integer[]" />
     </fragment>
 </navigation>

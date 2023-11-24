@@ -76,6 +76,7 @@
                 android:hint="Search"
                 android:inputType="text"
                 android:paddingVertical="8dp"
+                android:paddingHorizontal="8dp"
                 android:textColor="@color/dark_gray"
                 android:textColorHint="@color/medium_gray"
                 android:fontFamily="@font/poppins"

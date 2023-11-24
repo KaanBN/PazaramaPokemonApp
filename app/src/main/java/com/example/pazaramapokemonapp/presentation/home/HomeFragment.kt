@@ -54,12 +54,18 @@ class HomeFragment : Fragment(), PokemonListAdapter.Listener {
 
         binding.filterImageButton.post {
             val layoutParams = binding.filterImageButton.layoutParams
-            layoutParams.width = binding.filterImageButton.height + 10
+            layoutParams.width = binding.filterImageButton.height
             binding.filterImageButton.layoutParams = layoutParams
         }
 
         binding.filterImageButton.setOnClickListener {
             showAlertDialog()
+        }
+
+        binding.searchEditText.text?.let {
+            if (it.isNotEmpty()) {
+                binding.clearQueryImageButton.visibility = View.VISIBLE
+            }
         }
 
         binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
@@ -71,8 +77,17 @@ class HomeFragment : Fragment(), PokemonListAdapter.Listener {
         }
 
         binding.clearQueryImageButton.setOnClickListener {
-            binding.searchEditText.setText("")
             binding.searchEditText.clearFocus()
+            binding.searchEditText.text.clear()
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        binding.searchEditText.text?.let {
+            if (it.isNotEmpty()) {
+                binding.clearQueryImageButton.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -97,22 +112,20 @@ class HomeFragment : Fragment(), PokemonListAdapter.Listener {
         }
 
         dialog.findViewById<RadioButton>(R.id.radio_name).setOnClickListener {
-            binding.searchEditText.setText("")
             dialog.dismiss()
-            viewModel.setFilter("Name")
             binding.root.post{
                 viewModel.sortByName()
+                viewModel.setFilter("Name")
             }
             binding.filterImageButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.name))
         }
 
         dialog.findViewById<RadioButton>(R.id.radio_number).setOnClickListener {
-            binding.searchEditText.setText("")
             dialog.dismiss()
             binding.root.post{
                 viewModel.sortByNumber()
+                viewModel.setFilter("Number")
             }
-            viewModel.setFilter("Number")
             binding.filterImageButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.number))
         }
     }
@@ -148,7 +161,9 @@ class HomeFragment : Fragment(), PokemonListAdapter.Listener {
     }
 
     override fun onItemClick(pokemonId: Int, pokemonName: String, pokemonImageUrl: String) {
-        val action = HomeFragmentDirections.actionHomeFragmentToPokemonDetailFragment(pokemonId, pokemonName, pokemonImageUrl)
+//        val availablePokemonsIdList = viewModel.uiState.value.pokemons.map { it.url.split("/".toRegex()).dropLast(1).last().toInt() }
+        val availablePokemonsIdArray = viewModel.uiState.value.pokemons.map { it.url.split("/".toRegex()).dropLast(1).last().toInt() }.toIntArray()
+        val action = HomeFragmentDirections.actionHomeFragmentToPokemonDetailFragment(pokemonId, pokemonName, pokemonImageUrl, availablePokemonsIdArray)
         findNavController().navigate(action)
     }
 }

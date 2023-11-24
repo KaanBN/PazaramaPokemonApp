@@ -8,6 +8,5 @@ class PokemonDetail(
     val weight: Int,
     val stats: List<PokemonDetailDto.Stat>,
     val types: List<PokemonDetailDto.Type>,
-    val sprites: PokemonDetailDto.Sprites,
     val abilities: List<PokemonDetailDto.Ability>
 )

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pazaramapokemonapp.databinding.PokedexItemLayoutBinding
 import com.example.pazaramapokemonapp.domain.model.Pokemon
+import com.example.pazaramapokemonapp.presentation.home.HomeUiState
 
 class PokemonListAdapter(
     private val listener: Listener

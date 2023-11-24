@@ -36,7 +36,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         getPokemons()
-//        fakeGetPokemons()
     }
 
     private fun getPokemons() {
@@ -76,25 +75,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun fakeGetPokemons(){
-        viewModelScope.launch(dispatcherProvider.IO + exceptionHandler) {
-            _uiState.update { it.copy(isLoading = true) }
-            _uiState.update {
-                it.copy(
-                    isLoading = false,
-                    pokemons = listOf(
-                        Pokemon(
-                            "Bulbasaur",
-                            "https://pokeapi.co/api/v2/pokemon/1/"
-                        ),
-                    ),
-                    errorMessage = null
-                )
-            }
-        }
-    }
-
-
     fun retry() {
         _uiState.update { it.copy(errorMessage = null) }
         getPokemons()
@@ -112,7 +92,11 @@ class HomeViewModel @Inject constructor(
                     filterByNumber(query)
                 }
             } else {
-                _uiState.update { it.copy(pokemons = allPokemons) }
+                if (_uiState.value.filter == "Name") {
+                    sortByName()
+                } else {
+                    sortByNumber()
+                }
             }
         }
     }
@@ -123,22 +107,30 @@ class HomeViewModel @Inject constructor(
     }
 
     fun sortByName() {
-        _uiState.update { it.copy(pokemons = allPokemons.sortedBy { it.name }) }
+        Log.d("HomeViewModel", "sortByName: ")
+        _uiState.update { it.copy(pokemons = allPokemons.sortedBy { it.name })}
     }
 
     fun sortByNumber() {
+        Log.d("HomeViewModel", "sortByNumber: ")
         _uiState.update { it.copy(pokemons = allPokemons.sortedBy {
             it.url.substring(34, it.url.length - 1).toInt()
         }) }
     }
 
     fun filterByName(query: String) {
+        Log.d("HomeViewModel", "filterByName: $query")
         _uiState.update { it.copy(pokemons = allPokemons.filter { it.name.contains(query) }) }
     }
 
     fun filterByNumber(query: String) {
+        Log.d("HomeViewModel", "filterByNumber: $query")
         _uiState.update { it.copy(pokemons = allPokemons.filter {
             it.url.substring(34, it.url.length - 1).toInt().toString().contains(query)
         }) }
+    }
+
+    fun changeNextPokemon() {
+        _uiState.update { it.copy(searchOffset = it.searchOffset + it.searchLimit) }
     }
 }

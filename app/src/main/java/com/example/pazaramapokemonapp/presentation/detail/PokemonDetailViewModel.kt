@@ -3,9 +3,9 @@ package com.example.pazaramapokemonapp.presentation.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pazaramapokemonapp.domain.model.PokemonDetail
 import com.example.pazaramapokemonapp.domain.usecase.GetPokemonDetailUseCase
 import com.example.pazaramapokemonapp.domain.usecase.GetPokemonSpecieUseCase
+import com.example.pazaramapokemonapp.presentation.home.HomeUiState
 import com.example.pazaramapokemonapp.util.NavArgs
 import com.example.pazaramapokemonapp.util.Resource
 import com.example.pazaramapokemonapp.util.dispatcher.DispatcherProvider

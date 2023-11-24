@@ -7,5 +7,5 @@ data class PokemonDetailUiState(
     val isLoading: Boolean = false,
     val pokemonDetail: PokemonDetail? = null,
     val errorMessage: String? = null,
-    val pokemonSpecie: PokemonSpecie? = null
+    val pokemonSpecie: PokemonSpecie? = null,
 )
