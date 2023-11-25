@@ -1,5 +1,5 @@
 <h1 align="center">
-     Pokedex App
+     Pazarama Pokemon App
 </h1>
 
 ## Description
