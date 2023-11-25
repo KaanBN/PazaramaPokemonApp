@@ -12,7 +12,7 @@ import com.example.pazaramapokemonapp.presentation.home.HomeUiState
 
 class PokemonListAdapter(
     private val listener: Listener
-) : ListAdapter<Pokemon, PokemonListAdapter.PokemonListViewHolder>(MovieDiffUtil()) {
+) : ListAdapter<Pokemon, PokemonListAdapter.PokemonListViewHolder>(PokemonDiffUtil()) {
 
     interface Listener {
         fun onItemClick(pokemonId: Int, pokemonName: String, pokemonImageUrl: String)
@@ -68,7 +68,7 @@ class PokemonListAdapter(
     }
 }
 
-private class MovieDiffUtil : DiffUtil.ItemCallback<Pokemon>() {
+private class PokemonDiffUtil : DiffUtil.ItemCallback<Pokemon>() {
     override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
         return oldItem.name == newItem.name
     }

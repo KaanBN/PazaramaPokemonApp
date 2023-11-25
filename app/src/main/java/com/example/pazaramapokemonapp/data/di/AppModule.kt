@@ -41,7 +41,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMovieRepository(
+    fun providePokemonRepository(
         pokemonApi: PokemonApi
     ): PokemonRepository {
         return PokemonRepositoryImpl(pokemonApi)

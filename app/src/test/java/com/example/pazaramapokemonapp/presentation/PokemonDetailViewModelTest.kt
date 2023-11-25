@@ -59,7 +59,7 @@ class PokemonDetailViewModelTest {
     }
 
     @Test
-    fun whenViewModelInit_getMoviesDetailReturnFalse_updateState() = runTest {
+    fun whenViewModelInit_getPokemonDetailReturnFalse_updateState() = runTest {
         pokemonRepository.isReturnNetworkError = true
         viewModel.uiState.test {
             val uiState = awaitItem()
@@ -70,20 +70,5 @@ class PokemonDetailViewModelTest {
             assertThat(uiState2.errorMessage).isNotNull()
         }
     }
-
-    /*@Test
-    fun whenViewModelInit_getMoviesDetailReturnSuccess_updateState() = runTest {
-        viewModel.uiState.test {
-            val uiState = awaitItem()
-            assertThat(uiState.isLoading).isTrue()
-            advanceUntilIdle()
-            val uiState2 = awaitItem()
-            assertThat(uiState2.isLoading).isFalse()
-            assertThat(uiState2.pokemonDetail).isNotNull()
-            assertThat(uiState2.errorMessage).isNull()
-            assertThat(uiState2.pokemonSpecie).isNull()
-
-        }
-    }*/
 
 }

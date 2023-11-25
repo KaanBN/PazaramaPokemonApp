@@ -33,6 +33,6 @@
 
 ## Screenshots
 
-| Main Screen | Details Screen | Details Screen |
-| ----------- | ---------------- | ---------------- |
-| ![Main Screen](https://github.com/KaanBN/PazaramaPokemonApp/blob/master/Assets/home_screen.png) | ![Favourite Screen](https://github.com/KaanBN/PazaramaPokemonApp/blob/master/Assets/detail_screen_1.png) | ![Favourite Screen](https://github.com/KaanBN/PazaramaPokemonApp/blob/master/Assets/detail_screen_2.png)
+| Main Screen                                                                                     | Details Screen                                                                                           | Details Screen                                                                                           |
+|-------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| ![Main Screen](https://github.com/KaanBN/PazaramaPokemonApp/blob/master/Assets/home_screen.png) | ![Favourite Screen](https://github.com/KaanBN/PazaramaPokemonApp/blob/master/Assets/detail_screen_1.png) | ![Favourite Screen](https://github.com/KaanBN/PazaramaPokemonApp/blob/master/Assets/detail_screen_2.png) |

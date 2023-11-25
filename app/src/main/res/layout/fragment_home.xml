@@ -95,8 +95,6 @@
                 android:visibility="gone"
                 android:src="@drawable/close"
                 app:tint="#ff0000" />
-
-
         </LinearLayout>
 
 

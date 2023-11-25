@@ -43,6 +43,7 @@ class HomeFragment : Fragment(), PokemonListAdapter.Listener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().window.navigationBarColor = ContextCompat.getColor(requireContext(), R.color.primary)
         pokemonListAdapter = PokemonListAdapter(this)
         binding.recyclerView.adapter = pokemonListAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)

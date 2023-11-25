@@ -48,7 +48,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun whenViewModelInit_getPokemonsReturnFalse_shouldReturnListOfMovies() = runTest {
+    fun whenViewModelInit_getPokemonsReturnFalse_shouldReturnListOfPokemons() = runTest {
         pokemonRepository.isReturnNetworkError = true
         viewModel.uiState.test {
             val uiState = awaitItem()
